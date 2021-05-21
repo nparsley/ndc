@@ -29,7 +29,33 @@ module.exports = geocode;
 
 
 
+// geocoding 
+// address --> lat & long --> weather
 
+
+/* const urlLA = 'https://api.mapbox.com/geocoding/v5/mapbox.places/Los&Angeles.json?access_token=pk.eyJ1Ijoibmlja3BhcnNsZXkiLCJhIjoiY2tveGNnMW1vMGNrYzMwcXU0N2d0bzNtYiJ9.W_5haFNicW7b1TYzHLeNjA&limit=1'
+
+
+request({ url: urlLA, json: true}, (error, response) => {
+
+
+    //error handling
+    if (error) {
+        console.log('unable to connect to weather service')
+    } else if (response.body.features.length === 0) {
+        console.log('invalid location')
+    } else {
+        const lat = response.body.features[0].center[1];
+        const lng = response.body.features[0].center[0];
+        console.log(lat, lng);
+    }
+
+
+    // const both = response.body.features[0].center[0, 1];
+
+    // console.log(lat, lng);
+    // console.log(both);
+}) */
 
 
 
