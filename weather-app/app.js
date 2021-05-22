@@ -9,19 +9,20 @@ const address = process.argv[2];
 if (!address) {
     console.log('invalid location. try again.')
 } else {
-    geocode(address, (error, data) => {
+    geocode(address, (error, {lat, lng, plc} = {}) => {
+        // geocode(address, (error, {lat, lng}) => {
         //error handling
         if (error) {
             return console.log(error)
         }
         // console.log('error', error)
         // console.log('data', data)
-        forecast(data.lat, data.lng, (error, forecastData) => {
+        forecast(lat, lng, (error, forecastData) => {
             //error handling
             if (error) {
                return console.log(error)
             } else 
-            console.log(data.plc);
+            console.log(plc);
             console.log(forecastData);
     
           })
