@@ -3,17 +3,34 @@ const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
 
-geocode('phoenix', (error, data) => {
-    console.log('error', error)
-    console.log('data', data)
+const address = process.argv[2];
+// console.log(process.argv);
 
-})
+if (!address) {
+    console.log('invalid location. try again.')
+} else {
+    geocode(address, (error, data) => {
+        //error handling
+        if (error) {
+            return console.log(error)
+        }
+        // console.log('error', error)
+        // console.log('data', data)
+        forecast(data.lat, data.lng, (error, forecastData) => {
+            //error handling
+            if (error) {
+               return console.log(error)
+            } else 
+            console.log(data.plc);
+            console.log(forecastData);
+    
+          })
+    })
+}
 
 
-forecast(33.4486, -112.0773, (error, data) => {
-    console.log('Error', error)
-    console.log('Data', data)
-  })
+
+
 
 
 
