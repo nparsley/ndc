@@ -3,13 +3,13 @@ const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
 
-const address = process.argv[2];
+// const address = process.argv[2];
 // console.log(process.argv);
 
 if (!address) {
     console.log('invalid location. try again.')
 } else {
-    geocode(address, (error, {lat, lng, plc} = {}) => {
+    geocode(address, (error, {lat, lng, location} = {}) => {
         // geocode(address, (error, {lat, lng}) => {
         //error handling
         if (error) {
@@ -22,7 +22,7 @@ if (!address) {
             if (error) {
                return console.log(error)
             } else 
-            console.log(plc);
+            console.log(location);
             console.log(forecastData);
     
           })
