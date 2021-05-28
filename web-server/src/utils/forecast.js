@@ -1,7 +1,9 @@
 const request = require('request');
 
 const forecast = (lat, lng, callback) => {
-    const url = 'http://api.weatherstack.com/current?access_key=af60388571866aecc57b341911761233&query=' + lat + ',' + lng + '&units=f'
+    // const url = 'http://api.weatherstack.com/current?access_key=af60388571866aecc57b341911761233&query=' + lat + ',' + lng + '&units=f'
+    const url = 'http://api.weatherstack.com/current?access_key=61eb659f8ea273f2444d0a4aa0e6d644&query=' + lat + ',' + lng + '&units=f'
+
     request({ url, json: true}, (error, {body}) => {
         if(error) {
             callback('unable to find location services', undefined)
