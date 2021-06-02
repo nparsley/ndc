@@ -23,6 +23,32 @@ app.post('/users', (req, res) => {
     })
 })
 
+// READ
+app.get('/users', (req, res) => {
+    User.find({}).then((users) => {
+        res.send(users)
+    }).catch((e) => {
+        res.status(500).send()
+    })
+})
+
+// READ -user by id w/ route params
+app.get('/users/:id', (req, res) => {
+    // console.log(req.params)
+    const _id = req.params.id
+
+    User.findById(_id).then((user) => {
+        if (!user) {
+            return res.status(404).send()
+        }
+
+        res.send(user)
+    }).catch((e) => {
+        res.status(500).send()
+    })
+})
+
+
 app.post('/tasks', (req, res) => {
     // console.log(req.body)
     // res.send('testing')
