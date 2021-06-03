@@ -1,29 +1,40 @@
-const doWorkPromise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-        // resolve([2, 5, 9])
-        reject('error occured')
-        // resolve([2, 3, 2])
-    }, 2000)
+
+
+const add = (a, b) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            resolve(a + b)
+        }, 2000)
+    })
+}
+
+
+// nested promise
+
+// add(1, 2).then((sum) => {
+//     console.log(sum)
+
+//     add(sum, 5).then((sum2) => {
+//         console.log(sum2)
+//     }).catch((e) => {
+//         console.log(e)
+//     })
+// }).catch((e) => {
+//     console.log(e)
+// })
+
+
+
+// promise chaining
+
+add(1, 1).then((sum) => {
+    console.log(sum)
+    return add(sum, 4)
+}).then((sum2) => {
+    console.log(sum2)
+}).catch((e) => {
+    console.log(e)
 })
-
-
-doWorkPromise.then((result) => {
-    console.log('success', result)
-}).catch((error) => {
-    console.log('error', error)
-})
-
-
-
-
-//                              fulfilled
-// promise -- pending -->
-//                              rejected
-
-
-
-
-
 
 
 
