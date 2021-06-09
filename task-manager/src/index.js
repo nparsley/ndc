@@ -39,8 +39,23 @@ app.listen(port, () => {
 
 
 
-const jwt = require('jsonwebtoken')
+//DATA PRIVACY
+/* const name = {
+    name: 'hal'
+}
 
+name.toJSON = function () {
+    // console.log(this)
+    // return this
+    return {}
+}
+
+console.log(JSON.stringify(name)) */
+
+
+
+// JWT EX
+/* const jwt = require('jsonwebtoken')
 const myFunction = async () => {
     const token = jwt.sign({ _id: 'abc123' }, 'thisisnewcourse', { expiresIn: '7 days' })
     console.log(token)
@@ -49,8 +64,8 @@ const myFunction = async () => {
     console.log(data)
 
 }
-
-myFunction()
+ */
+// myFunction()
 
 
 
