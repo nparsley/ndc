@@ -51,10 +51,19 @@ const userSchema = new mongoose.Schema({
 })
 
 
+//virtual property between users and tasks
+userSchema.virtual('tasks', {
+    ref: 'Tasks',
+    localField: '_id',
+    foreignField: 'owner'
+})
+
+
+
 // methods on instance and individual user
 // alternate options 
 // userSchema.methods.getPublicProfile = async function () {
-userSchema.methods.toJSON = async function () {
+userSchema.methods.toJSON = function () {
 
     const user = this
     const userObject = user.toObject()

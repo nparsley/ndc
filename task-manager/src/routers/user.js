@@ -73,7 +73,7 @@ router.post('/users/logoutALL', auth, async (req, res) => {
 })
 
 // READ
-router.get('/users/me', auth ,async (req, res) => {
+router.get('/users/me', auth, async (req, res) => {
     // try {
     //     const users = await User.find({})
     //     res.send(users)
@@ -91,9 +91,7 @@ router.patch('/users/me', auth, async (req, res) => {
     //additional error handling for user
     const updates = Object.keys(req.body)
     const allowedUpdates = ['name', 'email', 'password', 'age']
-    const isValidOperation = updates.every((update) => {
-        return allowedUpdates.includes(update)
-    })
+    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
 
     if (!isValidOperation) {
         return res.status(400).send({ error : 'invalid updates'})
@@ -105,9 +103,7 @@ router.patch('/users/me', auth, async (req, res) => {
         //restructuring to not get bypassed middleware
         // const user = await User.findById(req.params.id)
 
-        updates.forEach((update) => {
-            req.user[update] = req.body[update]
-        })
+        updates.forEach((update) => req.user[update] = req.body[update])
 
         await req.user.save()
 

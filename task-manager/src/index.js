@@ -6,26 +6,7 @@ const taskRouter = require('./routers/task')
 const app = express()
 const port = process.env.port || 3000
 
-// MIDDLEWARE - 1st  
-/* app.use((req, res, next) => {
-    // console.log(req.method, req.path)
-    // next() 
-    if (req.method === 'GET') {
-        res.send('GET requests are disabled')
-    } else {
-        next()
-    }
-}) */
 
-
-/* app.use((req, res, next) => {
-    res.status(503).send('site is under maintenace')
-    // if (req.method) {
-    //     res.status(503).send('site is under maintenace')
-    // } else {
-    //     next()
-    // }
-}) */
 
 app.use(express.json())
 app.use(userRouter)
@@ -38,61 +19,21 @@ app.listen(port, () => {
 })
 
 
+//find task by id
+const Task = require('./models/task')
+const User = require('./models/user')
 
-//DATA PRIVACY
-/* const name = {
-    name: 'hal'
+const main = async () => {
+    // const task = await Task.findById('60c2986112d70b2ecc4e0c08')
+    // await task.populate('owner').execPopulate()
+    // console.log(task.owner)
+
+    const user = await User.findById('60c293f66d65432b9010c117')
+    await user.populate('tasks').execPopulate()
+    console.log(user.tasks)
 }
 
-name.toJSON = function () {
-    // console.log(this)
-    // return this
-    return {}
-}
-
-console.log(JSON.stringify(name)) */
-
-
-
-// JWT EX
-/* const jwt = require('jsonwebtoken')
-const myFunction = async () => {
-    const token = jwt.sign({ _id: 'abc123' }, 'thisisnewcourse', { expiresIn: '7 days' })
-    console.log(token)
-
-    const data = jwt.verify(token, 'thisisnewcourse')
-    console.log(data)
-
-}
- */
-// myFunction()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+main()
 
 
 
