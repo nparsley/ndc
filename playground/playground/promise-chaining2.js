@@ -1,6 +1,6 @@
-require('../src/db/mongoose')
+require('../../task-manager/src/db/mongoose')
 
-const Task = require('../src/models/task')
+const Task = require('../../task-manager/src/models/task')
 
 
 // Task.findByIdAndDelete('60b566a556e74445e0faf49a').then(() => {
