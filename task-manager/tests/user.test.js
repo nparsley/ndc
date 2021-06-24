@@ -10,7 +10,7 @@ const userOne = {
     _id: userOneId,
     name: 'mike',
     email: 'mike@ex.com',
-    password: '56what?',
+    password: '56what!!',
     tokens: [{
         token: jwt.sign({ _id: userOneId }, process.env.JWT_SECRET)
     }]
@@ -25,24 +25,38 @@ beforeEach( async () => {
 })
 
 
-/* afterEach(() => {
-    console.log('after each')  
-}) */
-
 test('Should signup a new user', async () => {
-    await request(app).post('/users').send({
+    const response = await request(app).post('/users').send({
         name: 'rick',
         email: 'nick@ex.com',
         password: 'mypass777!'
     }).expect(201)
+
+    // assert that the database was changed correctly
+    const user = await User.findById(response.body.user._id)
+    expect(user).not.toBeNull()
+
+    // assertions about the response
+    // expect(response.body.user.name).toBe('rick')
+    expect(response.body).toMatchObject({
+        user: {
+            name: 'rick',
+            email: 'nick@ex.com',
+        },
+        token: user.tokens[0].token
+    }) 
+    expect(user.password).not.toBe('mypass777!')
 })
  
 
 test('Should login existing user', async () => {
-    await request(app).post('/users/login').send({
+    const response = await request(app).post('/users/login').send({
         email: userOne.email,
         password: userOne.password
     }).expect(200)
+
+    const user = await User.findById(userOneId)
+    expect(response.body.token).toBe(user.tokens[1].token)
 })
 
 test('Should not login nonexistent user', async () => {
@@ -76,6 +90,9 @@ test('Should delete account for user', async () => {
     .set('Authorization', `Bearer ${userOne.tokens[0].token}`)
     .send()
     .expect(200)
+
+    const user = await User.findById(userOneId)
+    expect(user).toBeNull()
 })
 
 
