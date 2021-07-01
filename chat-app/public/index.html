@@ -8,7 +8,7 @@
         <div id="messages"></div>
         <div id="locations"></div>
 
-
+ 
 
         <button id="increment">+1</button>
         <p></p>
@@ -20,12 +20,12 @@
 
         <script id="message-template" type="text/html">
             <div>
-                <p>{{ message }}</p>
+                <p>{{ createdAt }} - {{ message }}</p>
             </div>
         </script>
         <script id="location-template" type="text/html">
             <div>
-                <p><a href="{{url}}" target="_blank">My current location</a></p>
+                <p> {{ createdAt }} - <a href="{{url}}" target="_blank">My current location</a></p>
             </div>
         </script>
 
