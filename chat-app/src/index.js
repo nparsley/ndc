@@ -23,14 +23,19 @@ io.on('connection', (socket) => {
     console.log('new websocket connection')
 
 
-/*     socket.emit('message', {
-        text: 'welcome',
-        createdAt: new Date().getTime()
-    }) */
 
-    socket.emit('message', generateMessage('welcome'))
-    // socket.broadcast.emit('message', 'a new user has joined')
-    socket.broadcast.emit('message', generateMessage('a new user has joined'))
+
+
+    socket.on('join', ({ username, room }) => {
+        socket.join(room)
+
+        socket.emit('message', generateMessage('welcome'))
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined`))
+
+
+        // io.toemit -- emits event to everyone in specific room
+        // socket.broadcast.to.emit -- send event to everyone except client but to specific chat room
+    })
 
     socket.on('sendMessage', (message, callback) => {
         const filter = new Filter()
@@ -39,30 +44,23 @@ io.on('connection', (socket) => {
             return callback('Profanity is not allowed')
         }
 
-        // io.emit('message', message)
-        io.emit('message', generateMessage(message))
+        io.to('phx').emit('message', generateMessage(message))
         callback()
     })
 
     socket.on('sendLocation', (coordinates, callback) => {
-        // io.emit('message', `Location: ${coordinates.latitude}, ${coordinates.longitude}`)
-        // io.emit('locationMessage', `https://google.com/maps?q=${coordinates.latitude},${coordinates.longitude}`)
         io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${coordinates.latitude},${coordinates.longitude}`))
         callback()
     })
 
     socket.on('disconnect', () => {
-        // io.emit('message', 'a user has left')
         io.emit('message', generateMessage('a user has left'))
     })
-
 
 
 })
 
 
-
-// app.listen(port, () => {
 server.listen(port, () => {
     console.log(`Server is up on port ${port}`)
 })
