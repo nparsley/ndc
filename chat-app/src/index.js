@@ -4,6 +4,7 @@ const path = require ('path')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 const { generateMessage, generateLocationMessage } = require('./utils/messages')
+const { addUser, getUser, getUsersInRoom, removeUser } = require('./utils/users') 
 
 const app = express()
 //express does this behind scenes
@@ -26,11 +27,20 @@ io.on('connection', (socket) => {
 
 
 
-    socket.on('join', ({ username, room }) => {
-        socket.join(room)
+    socket.on('join', ({ username, room }, callback) => {
+        const { error, user} = addUser({ id: socket.id, username, room })
+
+        if (error) {
+            return callback(error)
+        }
+
+
+        socket.join(user.room)
 
         socket.emit('message', generateMessage('welcome'))
-        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined`))
+        socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has joined`))
+
+        callback()
 
 
         // io.toemit -- emits event to everyone in specific room
@@ -54,7 +64,11 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
-        io.emit('message', generateMessage('a user has left'))
+        const user = removeUser(socket.id)
+
+        if (user) {
+            io.to(user.room).emit('message', generateMessage(`${user.username} has left`))
+        }
     })
 
 
